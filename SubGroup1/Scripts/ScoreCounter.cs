@@ -27,6 +27,10 @@ public class ScoreCounter : MonoBehaviour
     public void AddScore()
     {
         Score++;
-        tmp_score.text = score.ToString();
+        tmp_score.text =  score.ToString();
+    }
+    public int GetScore()
+    {
+        return Score;
     }
 }

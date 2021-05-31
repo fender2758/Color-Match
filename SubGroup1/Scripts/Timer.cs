@@ -49,7 +49,7 @@ public class Timer : MonoBehaviour
         {
             if (value <= 0)                          //시간 초과(게임 종료)
             {
-
+                GameManager.instance.Die();
             }
 
             if (value > Max_time)
@@ -102,5 +102,10 @@ public class Timer : MonoBehaviour
         if (decrement < max_dec)
             decrement += default_dec_add;
     }
-    
+    public void StopTimer()
+    {
+        cur_time = 0;
+        decrement = 0;
+    }
+
 }

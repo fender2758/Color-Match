@@ -19,6 +19,7 @@ public class StageCreator : MonoBehaviour
     //레벨은 0, 1, 2 세 단계가 있으며, 남은 시간이 줄어드는 속도는 독립적으로 빨라진다.
     public Queue<Quiz> CreateQueue(int level)
     {
+        print("퀴즈 생성됨.");
         Queue<Quiz> queue = new Queue<Quiz>();
 
         for(int i = 0; i < quizes_per_stage; i++)

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public int Level
     {
         get { return level; }
-        set { level = value; tmp_level.text = value.ToString(); }
+        set { level = value; tmp_level.text = "Level : "+ value.ToString(); }
     }
 
     [SerializeField]
@@ -36,8 +36,13 @@ public class GameManager : MonoBehaviour
     Timer timer;
 
     [SerializeField]
-    Image bg;
-    
+    UnityEngine.UI.Image bg;
+
+    [SerializeField]
+    LvlupPanel lp;
+
+    [SerializeField]
+    GameOverPanel gameover_panel;
 
     public static GameManager instance;
 
@@ -51,6 +56,8 @@ public class GameManager : MonoBehaviour
     {
         GetTwoQuizesAndStart();
         Level = 0;
+
+        gameover_panel.gameObject.SetActive(false);
     }
     // 스테이지 (퀴즈 큐) 생성 -> 2개를 Dequeue해서 cur_quiz, next_quiz에 설정, 이후 정답을 맞힐 때마다 Dequeue와 quiz를 재설정.
     // 
@@ -93,9 +100,11 @@ public class GameManager : MonoBehaviour
 
         if(stage.Count == 0)
         {
-            if (level < 2) Level++;
+            print("남은 퀴즈가 엄서요");
+            if (level < 2) lp.LevelUp(Level++);
             stage = sc.CreateQueue(level);
         }
+        print("남은 퀴즈 개수 : " + stage.Count.ToString());
         next_quiz = stage.Dequeue();
         next_quiz.transform.position = new Vector3(-0.8f, 0,1);
         next_quiz.transform.SetAsFirstSibling();
@@ -152,5 +161,14 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         Destroy(q.gameObject);
+    }
+    /// <summary>
+    /// 게임 종료
+    /// </summary>
+    public void Die()
+    {
+        gameover_panel.Show(score_counter.GetScore());
+        timer.StopTimer();
+        cur_quiz.TextColor = Color.clear;
     }
 }
